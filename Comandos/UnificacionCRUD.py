@@ -1,12 +1,13 @@
 from Comandos.CRUDMongo import MongoCRUD
 from Comandos.CRUDMySQL import MySQLCRUD
 from Comandos.CRUDNeo4J import Neo4jCRUD
-
+from Comandos.CRUDApi import ApiCRUD
 class Unificador():
     def __init__(self):
         self.mc= MongoCRUD()
         self.sc= MySQLCRUD()
         self.nc= Neo4jCRUD()
+        self.ac= ApiCRUD()
     def Ejercicio1(self, nombreEmpresa):
         return self.nc.leerPersonasDeEmpresa(nombreEmpresa)
     def Ejercicio2(self):
@@ -37,8 +38,20 @@ class Unificador():
     def Ejercicio8(self):
         idPersonas= self.sc.skillsComunes()
         return self.nc.equipoEspecifico(idPersonas)
+    def Ejercicio9(self):
+        pipeline = [{"$unwind": "$trabajadores"}, {"$group": {"_id": "$team_id", "idTrabajadores": {"$push": "$trabajadores.person_id"}}}]
+        idTrabajadores= self.mc.generarPipeline(pipeline)
+        equipos={}
+        
+        for i in idTrabajadores:
+            equipos[i['team_id']]=i['trabajadoresPorGrupo']
+        tiposEquipos= {}
+        for x in equipos:
+            for trabajadores in x["idTrabajadores"]:
+                pipeline = [{"$unwind": "$trabajadores"}, {"$group": {"_id": "$team_id", "idTrabajadores": {"$push": "$trabajadores.person_id"}}}]
+                idPokemons = self.mc.generarPipeline(pipeline)
 
-            
+
         
     
     

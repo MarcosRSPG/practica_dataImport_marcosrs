@@ -104,7 +104,7 @@ while (estandatos=='n'):
                 
                 imsql.create_table(f'{filepath}\\{filename}', nombreTabla)
 
-                imsql.insert_data(f'{filepath}\\{filename}', nombreTabla)      
+                imsql.insert_data(f'{filepath}\\{filename}', nombreTabla)
                 
             case _: print()
 
@@ -147,6 +147,8 @@ while(continuar=='y'):
             print(unificador.Ejercicio7(nivelProeficiencia.lower()))
         case 8:
             print(unificador.Ejercicio8())
+        case 9:
+            print(unificador.Ejercicio9())
         case _:
             print()
 
